@@ -72,28 +72,28 @@ model VerificationToken {
 }
 
 model User {
-  id               String      @id @default(cuid())
-  name             String?
-  email            String      @unique
-  emailVerified    DateTime?
-  image            String?
-  accounts         Account[]
-  sessions         Session[]
-  username         String?     @unique
-  displayName      String?
-  role             Role        @default(user)
-  jobTitle         String?
-  phoneNumber      String?
-  workspaces       Workspace[]
-  teams            Team[]
-  projectCreatedBy Project?    @relation("projectCreatedBy")
-  projectClients   Project[]   @relation("projectClients")
-  taskCreatedBy    Task?       @relation("taskCreatedBy")
-  taskAssignedTo   Task[]      @relation("taskAssignedTo")
-  messages         Message[]
-  comments         Comment[]
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
+  id                  String      @id @default(cuid())
+  name                String?
+  email               String      @unique
+  emailVerified       DateTime?
+  image               String?
+  accounts            Account[]
+  sessions            Session[]
+  username            String?     @unique
+  displayName         String?
+  role                Role        @default(user)
+  jobTitle            String?
+  phoneNumber         String?
+  workspaces          Workspace[]
+  teams               Team[]
+  projects_created    Project[]   @relation("project_createdBy")
+  projects_assignedTo Project[]   @relation("project_clients")
+  tasks_created       Task[]      @relation("task_createdBy")
+  tasks_assignedTo    Task[]      @relation("task_assignedTo")
+  messages            Message[]
+  comments            Comment[]
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
 }
 
 model Workspace {
@@ -136,28 +136,27 @@ model Project {
   teams            Team[]
   tasks            Task[]
   messages         Message[]
-  createdBy        User        @relation("projectCreatedBy", fields: [createdById], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdById      String      @unique
-  clients          User[]      @relation("projectClients")
+  createdBy        User        @relation("project_createdBy", fields: [createdById], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdById      String
+  clients          User[]      @relation("project_clients")
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
 }
 
 model Task {
-  id           String    @id @default(cuid())
-  title        String
-  description  String?
-  stage        Stage     @default(incoming)
-  effort       Int?
-  project      Project   @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  projectId    String
-  messages     Message[]
-  createdBy    User      @relation("taskCreatedBy", fields: [createdById], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdById  String    @unique
-  assignedTo   User?     @relation("taskAssignedTo", fields: [assignedToId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  assignedToId String?   @unique
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  stage       Stage     @default(incoming)
+  effort      Int?
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  projectId   String
+  messages    Message[]
+  createdBy   User      @relation("task_createdBy", fields: [createdById], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdById String
+  assignedTo  User[]    @relation("task_assignedTo")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Message {
@@ -184,5 +183,3 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-// author        User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)

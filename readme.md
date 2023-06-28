@@ -23,3 +23,9 @@
     ```shell
     npx prisma db seed
     ```
+
+    - Reset (Drop > Seed)
+
+    ```shell
+    npx prisma migrate reset
+    ```
