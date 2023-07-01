@@ -9,7 +9,6 @@ export async function GET(request: Request, { params }: Props) {
     try {
         const origin = request.headers.get('x-forwarded-host')
 
-        console.log(process.env.NEXTAUTH_URL?.split('//')[1])
         if (origin !== process.env.NEXTAUTH_URL?.split('//')[1]) {
             const accessToken = request.headers.get('authorization')?.split(' ')[1]
 
