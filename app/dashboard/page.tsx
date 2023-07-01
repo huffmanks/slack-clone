@@ -9,6 +9,8 @@ const Dashboard = async () => {
     return (
         <>
             <div>
+                <h1>Dashboard</h1>
+
                 <div className='mb-8'>
                     <h2 className='text-xl font-bold'>Workspaces</h2>
                     {workspaces.map((workspace) => (
@@ -38,9 +40,9 @@ const Dashboard = async () => {
                 </div>
 
                 <div className='mb-8'>
-                    <h2 className='text-xl font-bold'>users</h2>
+                    <h2 className='text-xl font-bold'>Users</h2>
                     {users.map((user) => (
-                        <div key={user.id}>{user.displayName}</div>
+                        <div key={user.id}>{user.username}</div>
                     ))}
                 </div>
             </div>

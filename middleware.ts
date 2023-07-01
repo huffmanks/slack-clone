@@ -1,22 +1,24 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-// This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-    // const response = NextResponse.next()
+    const cookie = request.cookies.get('next-auth.session-token')?.value
 
-    const cookies = request?.cookies?.get('next-auth.session-token')?.value
-    const res = await fetch('http://localhost:3000/api/session', {
-        method: 'POST',
+    if (!cookie) {
+        return NextResponse.redirect(new URL('/login', request.url))
+    }
 
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: cookies,
-    })
+    const url = `${process.env.NEXTAUTH_URL}/api/session/${cookie}`
 
+    const res = await fetch(url)
     const data = await res.json()
-    // return response
+
+    const token = data.sessionToken
+
+    if (!token || cookie !== token) {
+        return NextResponse.redirect(new URL('/login', request.url))
+    }
+
+    return NextResponse.next()
 }
 
 export const config = {
