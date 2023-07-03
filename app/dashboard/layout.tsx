@@ -4,9 +4,7 @@ import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 
-import SignOut from '@/components/SignOut'
-import Navbar from '@/components/Navbar'
-import Sidebar from '@/components/Sidebar'
+import Navigation from '@/components/Navigation'
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
     const session = await getServerSession(authOptions)
@@ -27,15 +25,11 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
 
     return (
         <>
-            <div className='grid grid-cols-[auto_1fr]'>
-                <Sidebar {...workspace} />
+            <Navigation {...workspace} />
 
-                <div>
-                    <Navbar />
-                    {/* <SignOut /> */}
-                    <main className='px-6 pb-10 pt-4'>{children}</main>
-                </div>
-            </div>
+            <main className='p-4 sm:ml-64'>
+                <div className='mt-14 p-4'>{children}</div>
+            </main>
         </>
     )
 }
