@@ -1,6 +1,5 @@
-import { users } from './data/users'
-import { workspaces } from './data/workspaces'
-import { projects } from './data/projects'
-import { tasks } from './data/tasks'
+import { workspaceData } from './data/workspaces'
+import { projectData } from './data/projects'
+import { taskData } from './data/tasks'
 
-export { users, workspaces, projects, tasks }
+export { workspaceData, projectData, taskData }

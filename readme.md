@@ -1,31 +1,37 @@
-1. Prisma
+## getting started
 
-    - Generate
+```shell
+git clone repo_url
+```
 
-    ```shell
-    npx prisma generate
-    ```
+```shell
+cd project_name && yarn
+```
 
-    - Migrate
+```shell
+cp example.env .env
+```
 
-    ```shell
-    npx prisma migrate dev
-    ```
+-   Update environment variables.
 
-    - Push
+## mysql
 
-    ```shell
-    npx prisma db push
-    ```
+```shell
+mysql -u root -p
+```
 
-    - Seed
+```shell
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+```
 
-    ```shell
-    npx prisma db seed
-    ```
+```shell
+CREATE DATABASE db_name;
+```
 
-    - Reset (Drop > Seed)
+```shell
+USE db_name;
+```
 
-    ```shell
-    npx prisma migrate reset
-    ```
+```shell
+GRANT ALL PRIVILEGES ON *.* TO 'username'@'localhost';
+```

@@ -1,43 +1,35 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 
-import { users, workspaces, projects, tasks } from './config'
+import { workspaceData, projectData, taskData } from './config'
 
 const prisma = new PrismaClient()
 
-const userData: Prisma.UserCreateInput[] = users
-const workspaceData: Prisma.WorkspaceCreateInput[] = workspaces
-const projectData: Prisma.ProjectCreateInput[] = projects
-const taskData: Prisma.TaskCreateInput[] = tasks
+const workspaces: Prisma.WorkspaceCreateInput[] = workspaceData
+const projects: Prisma.ProjectCreateInput[] = projectData
+const tasks: Prisma.TaskCreateInput[] = taskData
 
 async function main() {
     console.log(`Start seeding ...`)
 
-    for (const u of userData) {
-        const user = await prisma.user.create({
-            data: u,
+    for (const workspace of workspaces) {
+        const createdWorkspace = await prisma.workspace.create({
+            data: workspace,
         })
-        console.log(`Created user with id: ${user.id}`)
+        console.log(`Created workspace with id: ${createdWorkspace.id}`)
     }
 
-    for (const w of workspaceData) {
-        const workspace = await prisma.workspace.create({
-            data: w,
+    for (const project of projects) {
+        const createdProject = await prisma.project.create({
+            data: project,
         })
-        console.log(`Created workspace with id: ${workspace.id}`)
+        console.log(`Created project with id: ${createdProject.id}`)
     }
 
-    for (const p of projectData) {
-        const project = await prisma.project.create({
-            data: p,
+    for (const task of tasks) {
+        const createdTask = await prisma.task.create({
+            data: task,
         })
-        console.log(`Created project with id: ${project.id}`)
-    }
-
-    for (const t of taskData) {
-        const task = await prisma.task.create({
-            data: t,
-        })
-        console.log(`Created task with id: ${task.id}`)
+        console.log(`Created task with id: ${createdTask.id}`)
     }
 
     console.log(`Seeding finished.`)
