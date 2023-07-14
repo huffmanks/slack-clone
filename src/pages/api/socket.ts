@@ -14,16 +14,16 @@ const SocketHandler = async (req: Request, res: any) => {
             console.log('New client connected')
 
             // Handle joining project
-            socket.on('join_project', async ({ userId, channelName }) => {
+            socket.on('join_project', async ({ userId, projectTitle }) => {
                 const user = await prisma.user.findUnique({ where: { id: userId } })
                 if (user) {
-                    socket.join(channelName)
-                    socket.to(channelName).emit('joined', { username: user.username, content: `${user.username} has joined the chat` })
+                    socket.join(projectTitle)
+                    socket.to(projectTitle).emit('joined', { username: user.username, content: `${user.username} has joined the chat` })
                 }
             })
 
-            socket.on('leave_project', async ({ userId, channelName }) => {
-                socket.leave(channelName)
+            socket.on('leave_project', ({ userId, projectTitle }) => {
+                socket.leave(projectTitle)
             })
 
             // Handle joining task
@@ -35,19 +35,19 @@ const SocketHandler = async (req: Request, res: any) => {
                 }
             })
 
-            socket.on('leave_task', async ({ userId, taskName }) => {
+            socket.on('leave_task', ({ userId, taskName }) => {
                 socket.leave(taskName)
             })
 
             // Handle chat messages
-            socket.on('chat_message', async ({ id, content, senderId, channelId }) => {
+            socket.on('chat_message', async ({ id, content, senderId, projectId }) => {
                 // find out which room message is coming from and update that project or task
                 //
                 // const user = await prisma.user.findUnique({ where: { id: senderId } })
-                // const channel = await prisma.channel.findUnique({ where: { id: channelId } })
-                // if (channel) {
+                // const project = await prisma.project.findUnique({ where: { id: projectId } })
+                // if (project) {
                 //     console.log('server message: ', content)
-                //     socket.to(channel.name).emit('message', { id, content, senderId, channelId })
+                //     socket.to(project.name).emit('message', { id, content, senderId, projectId })
                 // }
             })
 

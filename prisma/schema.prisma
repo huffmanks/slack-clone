@@ -81,7 +81,7 @@ model Team {
 
 model Project {
   id               String      @id @default(cuid())
-  title            String
+  title            String      @unique
   description      String?
   isArchived       Boolean     @default(false)
   stage            Stage       @default(incoming)

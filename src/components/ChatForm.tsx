@@ -6,10 +6,11 @@ import { useSocket } from '@/providers/SocketProvider'
 
 interface Props {
     messagesRef: any
-    channelId: string
+    roomId: string
+    roomName: string
 }
 
-const ChatForm = ({ messagesRef, channelId }: Props) => {
+const ChatForm = ({ messagesRef, roomId, roomName }: Props) => {
     const [newMessage, setNewMessage] = useState('')
     const ws = useSocket()
 
@@ -20,7 +21,8 @@ const ChatForm = ({ messagesRef, channelId }: Props) => {
             id: createId(),
             content: newMessage,
             senderId: '6563aec4-e124-4a05-b493-29d1fa25c764',
-            channelId,
+            projectId: roomName === 'project' ? roomId : null,
+            taskId: roomName === 'task' ? roomId : null,
         }
 
         const createMessage = async () => {

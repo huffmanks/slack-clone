@@ -1,9 +1,10 @@
-import { Channel } from '@/types'
 import Link from 'next/link'
 
+import { Project } from '@prisma/client'
+
 const layout = async ({ children }: { children: React.ReactNode }) => {
-    const res = await fetch('http://localhost:3000/api/channels')
-    const channels = await res.json()
+    const res = await fetch('http://localhost:3000/api/projects')
+    const projects = await res.json()
 
     return (
         <div className='flex h-full'>
@@ -13,12 +14,13 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
                         Home
                     </Link>
                 </div>
-                <div className='mb-1'>Channels</div>
-                <div className='flex flex-col gap-1 pl-2'>
-                    {channels &&
-                        channels.map((channel: Channel) => (
-                            <Link key={channel.id} href={`/channels/${channel.name}`} className='text-sm text-purple-500'>
-                                {channel.name}
+                <div className='mb-1'>Projects</div>
+                <div className='flex flex-col gap-1'>
+                    {projects &&
+                        projects.map((project: Project) => (
+                            <Link key={project.id} href={`/dashboard/projects/${project.id}`} className='text-sm text-purple-500'>
+                                <span className='mr-2'>#</span>
+                                <span>{project.title}</span>
                             </Link>
                         ))}
                 </div>

@@ -3,6 +3,7 @@ import { WebhookEvent } from '@clerk/nextjs/dist/types/server'
 
 import { prisma } from '@/lib/prisma'
 
+// need to export this as POST, PATCH
 export async function handler(request: Request) {
     const body = await request.json()
 
