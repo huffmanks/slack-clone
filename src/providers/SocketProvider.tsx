@@ -14,18 +14,18 @@ const SocketContext = createContext<SocketState | null>(null)
 
 const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     const [socketState, setSocketState] = useState<SocketState>({})
-    // const { isSignedIn, user } = useUser()
+    const { isSignedIn, user } = useUser()
 
     useEffect(() => {
         const socket = io({ path: '/api/socket', autoConnect: false, addTrailingSlash: false })
 
-        // if (isSignedIn && user) {
-        //     socket.connect()
+        if (isSignedIn && user) {
+            socket.connect()
 
-        //     socket.on('connect', () => {
-        //         setSocketState({ socket, user })
-        //     })
-        // }
+            socket.on('connect', () => {
+                setSocketState({ socket, user })
+            })
+        }
         socket.on('connect', () => {
             setSocketState({ socket })
         })
@@ -38,8 +38,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             setSocketState({})
             socket.disconnect()
         }
-    }, [])
-    // }, [user])
+    }, [user])
 
     return <SocketContext.Provider value={socketState}>{children}</SocketContext.Provider>
 }
