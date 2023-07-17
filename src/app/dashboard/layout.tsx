@@ -1,13 +1,11 @@
 import { redirect } from 'next/navigation'
-import { auth, UserButton } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs'
 
 import { prisma } from '@/lib/prisma'
-import Navigation from '@/components/Navigation'
+import Navigation from '@/components/layout/Navigation'
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
     const { userId } = auth()
-
-    // console.log(userId)
 
     const user = await prisma.user.findUnique({ where: { externalId: userId! }, include: { workspaces: true } })
     if (!user) {
@@ -16,7 +14,6 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
     }
 
     const workspace = user.workspaces[0]
-    // const workspace = { id: '1', title: 'Marketing', logo: '', createdAt: new Date('2023-07-13T14:46:44.289Z'), updatedAt: new Date('2023-07-13T14:46:44.289Z') }
 
     return (
         <>
