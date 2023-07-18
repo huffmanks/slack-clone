@@ -1,11 +1,11 @@
 ## getting started
 
 ```shell
-git clone repo_url
+git clone https://github.com/huffmanks/slack-clone.git
 ```
 
 ```shell
-cd project_name && yarn
+cd slack-clone && yarn
 ```
 
 ```shell
@@ -25,11 +25,11 @@ CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
 ```
 
 ```shell
-CREATE DATABASE db_name;
+CREATE DATABASE slackClone;
 ```
 
 ```shell
-USE db_name;
+USE slackClone;
 ```
 
 ```shell
