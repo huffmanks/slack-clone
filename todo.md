@@ -1,4 +1,5 @@
 1. DB Computed fields
-2. Context for layout navigation (sidebar is open, projects is open, search term, etc.)
-3. Sidebar links update icons
-4.
+2. Theme save local storage and hydrate the html class
+3. Workspace dropdown make component
+4. Fix '.../projects/[projectId]' page not displaying info
+5. Make ui components for project and task page

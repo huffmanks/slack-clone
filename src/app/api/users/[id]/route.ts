@@ -10,7 +10,7 @@ export async function GET(request: Request, { params }: Params) {
         return NextResponse.json({ message: 'No user found.' })
     }
 
-    const user = await prisma.user.findUnique({ where: { id }, include: { workspaces: true } })
+    const user = await prisma.user.findUnique({ where: { externalId: id }, include: { workspaces: true } })
 
     if (!user) {
         return NextResponse.json({ message: 'No user found.' })

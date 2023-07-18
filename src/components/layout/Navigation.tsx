@@ -1,5 +1,6 @@
-import DashboardProvider from '@/providers/DashboardProvider'
+'use client'
 
+import DashboardProvider from '@/providers/DashboardProvider'
 import SearchBar from './SearchBar'
 import Sidebar from './Sidebar'
 

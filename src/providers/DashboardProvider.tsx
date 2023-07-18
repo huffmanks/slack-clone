@@ -7,8 +7,8 @@ import { Project, Workspace } from '@prisma/client'
 const initialContextState = {
     workspace: {
         id: '',
-        title: 'Marketing',
-        logo: 'http://dummyimage.com/100x100.png/dddddd/000000',
+        title: '',
+        logo: '',
     },
     isOpen: {
         sidebarMobileMenu: false,
@@ -55,14 +55,17 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         const getWorkspaceInfo = async () => {
-            if (user) {
-                const userResponse = await fetch(`http://localhost:3000/api/users/${user.id}`)
-                const userData = await userResponse.json()
+            // TODO: send to login
+            if (!user) return
 
-                if (userData) {
-                    // TODO: set workspace of last login
-                    setWorkspace(userData.workspaces[0])
-                }
+            const userResponse = await fetch(`http://localhost:3000/api/users/${user?.id}`)
+            const userData = await userResponse.json()
+
+            // TODO: If no workspace send to workspace registration
+
+            if (userData) {
+                // TODO: set workspace of last login
+                setWorkspace(userData.workspaces?.[0])
             }
 
             // TODO: only show projects from above workspace
