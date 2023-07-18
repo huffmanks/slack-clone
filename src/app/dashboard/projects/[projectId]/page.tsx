@@ -12,6 +12,7 @@ const page = async ({ params }: Props) => {
 
     const res = await fetch(`http://localhost:3000/api/projects/${params.projectId}`)
     const project = await res.json()
+
     return (
         <>
             {project && (

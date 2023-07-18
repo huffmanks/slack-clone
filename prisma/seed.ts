@@ -1,11 +1,12 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 
-import { userData, workspaceData, projectData, taskData } from './config'
+import { userData, workspaceData, channelData, projectData, taskData } from './config'
 
 const prisma = new PrismaClient()
 
 const users: Prisma.UserCreateInput[] = userData
 const workspaces: Prisma.WorkspaceCreateInput[] = workspaceData
+const channels: Prisma.ChannelCreateInput[] = channelData
 const projects: Prisma.ProjectCreateInput[] = projectData
 const tasks: Prisma.TaskCreateInput[] = taskData
 
@@ -27,6 +28,15 @@ async function main() {
                 data: workspace,
             })
             return createdWorkspace
+        })
+    )
+
+    const createdChannels = await Promise.all(
+        channels.map(async (channel) => {
+            const createdChannel = await prisma.channel.create({
+                data: channel,
+            })
+            return createdChannel
         })
     )
 

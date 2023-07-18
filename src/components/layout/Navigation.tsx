@@ -1,23 +1,14 @@
-'use client'
-
-import { useState } from 'react'
-
-import { Workspace } from '@prisma/client'
+import DashboardProvider from '@/providers/DashboardProvider'
 
 import SearchBar from './SearchBar'
 import Sidebar from './Sidebar'
 
-const Navigation = (workspace: Workspace) => {
-    const [sidebarIsOpen, setSidebarIsOpen] = useState(false)
-
-    const handleSidebar = (e: React.MouseEvent<HTMLButtonElement>) => {
-        setSidebarIsOpen((prev) => !prev)
-    }
+const Navigation = () => {
     return (
-        <>
-            <SearchBar title={workspace.title} logo={workspace?.logo || ''} handleSidebar={handleSidebar} />
-            <Sidebar sidebarIsOpen={sidebarIsOpen} />
-        </>
+        <DashboardProvider>
+            <SearchBar />
+            <Sidebar />
+        </DashboardProvider>
     )
 }
 

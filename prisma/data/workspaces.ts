@@ -18,7 +18,7 @@ export const workspaceData = [
                     title: 'Web',
                     completedProjects: 58,
                     users: {
-                        connect: [{ id: '3' }, { id: '4' }],
+                        connect: [{ id: '3' }, { id: '4' }, { id: '14' }],
                     },
                 },
                 {
@@ -32,7 +32,7 @@ export const workspaceData = [
             ],
         },
         users: {
-            connect: [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }, { id: '6' }],
+            connect: [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }, { id: '6' }, { id: '14' }],
         },
     },
     {

@@ -144,4 +144,13 @@ export const userData = [
         jobTitle: 'Director of Registrar',
         phoneNumber: '370-567-1420',
     },
+    {
+        id: '14',
+        externalId: 'user_2SLghynezbQHnusfqwsuv6JkUfd',
+        email: 'huff9121@gmail.com',
+        username: 'huff9121',
+        firstName: 'Kevin',
+        lastName: 'Huffman',
+        role: Role.admin,
+    },
 ]

@@ -6,6 +6,7 @@ export const projectData = [
     {
         id: '31',
         title: 'Summer School promotions',
+        slug: 'summer-school-promotions',
         description: 'Flyers and emails for summer school.',
         isArchived: false,
         stage: Stage.incoming,
@@ -18,6 +19,14 @@ export const projectData = [
         progress: 0.46,
         neededBy: new Date(now.setDate(now.getDate() + 10 * 7)),
         willMeetDeadline: true,
+        messages: {
+            create: [
+                {
+                    content: 'Opening this project to get started! Let me know if you have any questions.',
+                    senderId: '1',
+                },
+            ],
+        },
         teams: {
             connect: [{ id: '21' }, { id: '22' }],
         },
@@ -30,6 +39,7 @@ export const projectData = [
     {
         id: '32',
         title: 'New landing page',
+        slug: 'new-landing-page',
         description: 'Create new landing page for office.',
         isArchived: false,
         stage: Stage.backlog,
@@ -61,6 +71,7 @@ export const projectData = [
     {
         id: '33',
         title: 'Alumni Instagram',
+        slug: 'alumni-instagram',
         description: 'Make some social posts.',
         isArchived: false,
         stage: Stage.inProgress,
@@ -88,6 +99,7 @@ export const projectData = [
     {
         id: '34',
         title: 'Campus network upgrades',
+        slug: 'campus-network-upgrades',
         description: 'Upgrade network to fiber and upgrade system.',
         isArchived: false,
         stage: Stage.inProgress,
@@ -111,7 +123,8 @@ export const projectData = [
     },
     {
         id: '35',
-        title: 'Fall student records',
+        title: 'Student record data',
+        slug: 'student-record-data',
         description: 'Add new students into database.',
         isArchived: true,
         stage: Stage.completed,
