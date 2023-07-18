@@ -1,24 +1,32 @@
-import { RectangleStackIcon, AtSymbolIcon, ChatBubbleLeftRightIcon, UserGroupIcon } from '@heroicons/react/24/solid'
+import { Inbox, AtSign, MessagesSquare, Users2 } from 'lucide-react'
 
 export const sidebarLinks = [
     {
         title: 'Tasks',
         link: '#',
-        icon: <RectangleStackIcon className='h-5 w-5 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors' />,
+        icon: (
+            <Inbox className='h-5 w-5 text-zinc-500 dark:text-zinc-600 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 group-focus-visible:text-zinc-900 dark:group-focus-visible:text-zinc-100' />
+        ),
     },
     {
         title: 'Mentions',
         link: '#',
-        icon: <AtSymbolIcon className='h-5 w-5 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors' />,
+        icon: (
+            <AtSign className='h-5 w-5 text-zinc-500 dark:text-zinc-600 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 group-focus-visible:text-zinc-900 dark:group-focus-visible:text-zinc-100' />
+        ),
     },
     {
         title: 'Direct Messages',
         link: '#',
-        icon: <ChatBubbleLeftRightIcon className='h-5 w-5 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors' />,
+        icon: (
+            <MessagesSquare className='h-5 w-5 text-zinc-500 dark:text-zinc-600 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 group-focus-visible:text-zinc-900 dark:group-focus-visible:text-zinc-100' />
+        ),
     },
     {
         title: 'People & Teams',
         link: '#',
-        icon: <UserGroupIcon className='h-5 w-5 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors' />,
+        icon: (
+            <Users2 className='h-5 w-5 text-zinc-500 dark:text-zinc-600 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 group-focus-visible:text-zinc-900 dark:group-focus-visible:text-zinc-100' />
+        ),
     },
 ]

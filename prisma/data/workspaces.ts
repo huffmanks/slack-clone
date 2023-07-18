@@ -2,7 +2,7 @@ export const workspaceData = [
     {
         id: '51',
         title: 'Marketing',
-        logo: 'http://dummyimage.com/100x100.png/dddddd/000000',
+        logo: 'https://dummyimage.com/64x64/5656ff/5656ff.png',
         teams: {
             create: [
                 {
@@ -38,7 +38,7 @@ export const workspaceData = [
     {
         id: '52',
         title: 'ITS',
-        logo: 'http://dummyimage.com/100x100.png/ff4444/ffffff',
+        logo: 'https://dummyimage.com/64x64/ad2c14/ad2c14.png',
         teams: {
             create: [
                 {

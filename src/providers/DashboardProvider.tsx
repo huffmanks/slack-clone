@@ -13,8 +13,6 @@ const initialContextState = {
     isOpen: {
         sidebarMobileMenu: false,
         workspaceDropdown: false,
-        channelAccordion: false,
-        projectAccordion: false,
     },
 }
 
