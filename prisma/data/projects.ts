@@ -19,6 +19,9 @@ export const projectData = [
         progress: 0.46,
         neededBy: new Date(now.setDate(now.getDate() + 10 * 7)),
         willMeetDeadline: true,
+        workspace: {
+            connect: { id: '51' },
+        },
         messages: {
             create: [
                 {
@@ -52,6 +55,9 @@ export const projectData = [
         progress: 0.053,
         neededBy: new Date(now.setDate(now.getDate() + 12 * 7)),
         willMeetDeadline: true,
+        workspace: {
+            connect: { id: '51' },
+        },
         teams: {
             connect: [
                 {
@@ -84,6 +90,9 @@ export const projectData = [
         progress: 0.013,
         neededBy: new Date(now.setDate(now.getDate() + 3 * 7)),
         willMeetDeadline: false,
+        workspace: {
+            connect: { id: '51' },
+        },
         teams: {
             connect: { id: '23' },
         },
@@ -112,6 +121,9 @@ export const projectData = [
         progress: 0.083,
         neededBy: new Date(now.setDate(now.getDate() + 15 * 7)),
         willMeetDeadline: true,
+        workspace: {
+            connect: { id: '52' },
+        },
         teams: {
             connect: { id: '24' },
         },
@@ -137,6 +149,9 @@ export const projectData = [
         progress: 0,
         neededBy: new Date(now.setDate(now.getDate() + 15 * 7)),
         willMeetDeadline: true,
+        workspace: {
+            connect: { id: '52' },
+        },
         teams: {
             connect: { id: '25' },
         },

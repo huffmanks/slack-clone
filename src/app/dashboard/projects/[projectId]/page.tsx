@@ -2,16 +2,18 @@ import Link from 'next/link'
 import { Message, Task, Team, User } from '@prisma/client'
 
 import ChatContainer from '@/components/ChatContainer'
+import { MessageWithSender } from '@/types'
 
 interface Props {
     params: { projectId: string }
 }
 
 const page = async ({ params }: Props) => {
-    const username = 'kaos'
+    const projectResponse = await fetch(`http://localhost:3000/api/projects/${params.projectId}?workspaceId=51`)
+    const project = await projectResponse.json()
 
-    const res = await fetch(`http://localhost:3000/api/projects/${params.projectId}`)
-    const project = await res.json()
+    const messagesResponse = await fetch(`http://localhost:3000/api/messages?id=${params.projectId}`)
+    const messages = await messagesResponse.json()
 
     return (
         <>
@@ -50,12 +52,12 @@ const page = async ({ params }: Props) => {
                     <div>
                         <h2 className='text-lg mb-2 font-bold'>Messages</h2>
                         <ChatContainer roomId={project.id} roomName='project' title={project.title}>
-                            {project?.messages &&
-                                project.messages
+                            {messages &&
+                                messages
                                     .sort((a: Message, b: Message) => new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf())
-                                    .map((message: Message) => (
+                                    .map((message: MessageWithSender) => (
                                         <div key={message.id}>
-                                            <div className='mb-1 text-sm'>{username}</div>
+                                            <div className='mb-1 text-sm'>{message.sender.username}</div>
                                             <div className='w-fit rounded-full bg-zinc-700 px-3 py-1'>{message.content}</div>
                                         </div>
                                     ))}

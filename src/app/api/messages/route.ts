@@ -6,13 +6,8 @@ export async function GET(request: Request) {
     const id = requestUrl.searchParams.get('id')
 
     const messages = await prisma.message.findMany({
-        where: {
-            projectId: id,
-            OR: {
-                taskId: id,
-            },
-        },
-        include: { project: true, task: true, sender: true, comments: true },
+        where: { OR: [{ projectId: id }, { taskId: id }] },
+        include: { sender: true, comments: true },
     })
 
     if (!messages) {

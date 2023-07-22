@@ -10,7 +10,7 @@ export async function GET(request: Request, { params }: Params) {
         return NextResponse.json({ message: 'No task found.' })
     }
 
-    const task = await prisma.task.findUnique({ where: { id: taskId }, include: { assignedTo: true, createdBy: true, messages: true } })
+    const task = await prisma.task.findUnique({ where: { id: taskId, projectId }, include: { assignedTo: true, createdBy: true } })
 
     if (!task) {
         return NextResponse.json({ message: 'No task found.' })

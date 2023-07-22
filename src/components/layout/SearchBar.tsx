@@ -9,7 +9,7 @@ import { UserButton } from '@clerk/nextjs'
 import { ArrowLeft, ArrowRight, Search, ChevronDown, MoonStar, Sun } from 'lucide-react'
 
 import { useDashboard } from '@/providers/DashboardProvider'
-import useIsMounted from '@/app/hooks/useIsMounted'
+import useIsMounted from '@/hooks/useIsMounted'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'

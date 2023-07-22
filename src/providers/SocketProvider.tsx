@@ -26,9 +26,6 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
                 setSocketState({ socket, user })
             })
         }
-        socket.on('connect', () => {
-            setSocketState({ socket })
-        })
 
         socket.on('disconnect', () => {
             setSocketState({})

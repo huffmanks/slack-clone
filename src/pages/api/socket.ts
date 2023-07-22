@@ -15,11 +15,12 @@ const SocketHandler = async (req: Request, res: any) => {
 
             // Handle joining project
             socket.on('join_project', async ({ userId, projectTitle }) => {
-                const user = await prisma.user.findUnique({ where: { id: userId } })
-                if (user) {
-                    socket.join(projectTitle)
-                    socket.to(projectTitle).emit('joined', { username: user.username, content: `${user.username} has joined the chat` })
-                }
+                // console.log('userId', userId)
+                // const user = await prisma.user.findUnique({ where: { id: userId } })
+                // if (user) {
+                //     socket.join(projectTitle)
+                //     socket.to(projectTitle).emit('joined', { username: user.username, content: `${user.username} has joined the chat` })
+                // }
             })
 
             socket.on('leave_project', ({ userId, projectTitle }) => {
@@ -27,17 +28,17 @@ const SocketHandler = async (req: Request, res: any) => {
             })
 
             // Handle joining task
-            socket.on('join_task', async ({ userId, taskName }) => {
-                const user = await prisma.user.findUnique({ where: { id: userId } })
-                if (user) {
-                    socket.join(taskName)
-                    socket.to(taskName).emit('joined', { username: user.username, content: `${user.username} has joined the chat` })
-                }
-            })
+            // socket.on('join_task', async ({ userId, taskName }) => {
+            //     const user = await prisma.user.findUnique({ where: { id: userId } })
+            //     if (user) {
+            //         socket.join(taskName)
+            //         socket.to(taskName).emit('joined', { username: user.username, content: `${user.username} has joined the chat` })
+            //     }
+            // })
 
-            socket.on('leave_task', ({ userId, taskName }) => {
-                socket.leave(taskName)
-            })
+            // socket.on('leave_task', ({ userId, taskName }) => {
+            //     socket.leave(taskName)
+            // })
 
             // Handle chat messages
             socket.on('chat_message', async ({ id, content, senderId, projectId }) => {

@@ -4,32 +4,30 @@ import ChatContainer from '@/components/ChatContainer'
 import { MessageWithSender } from '@/types'
 
 interface Props {
-    params: {
-        projectId: string
-        taskId: string
-    }
+    params: { channelId: string }
 }
 
 const page = async ({ params }: Props) => {
-    const taskResponse = await fetch(`http://localhost:3000/api/projects/${params.projectId}/tasks/${params.taskId}`)
-    const task = await taskResponse.json()
+    const channelResponse = await fetch(`http://localhost:3000/api/channels/${params.channelId}?workspaceId=51`)
+    const channel = await channelResponse.json()
 
-    const messagesResponse = await fetch(`http://localhost:3000/api/messages?id=${params.taskId}`)
+    const messagesResponse = await fetch(`http://localhost:3000/api/messages?id=${params.channelId}`)
     const messages = await messagesResponse.json()
+
     return (
         <>
-            {task && (
+            {channel && (
                 <>
-                    <h1 className='mb-8 text-2xl font-bold'>{task.title}</h1>
+                    <h1 className='mb-8 text-2xl font-bold'>{channel.title}</h1>
 
                     <div className='mb-10'>
                         <div className='font-bold mb-1'>Created by:</div>
-                        <div>{task.createdBy.firstName}</div>
+                        <div>{channel.createdBy.firstName}</div>
                     </div>
 
                     <div>
                         <h2 className='text-lg mb-2 font-bold'>Messages</h2>
-                        <ChatContainer roomId={task.id} roomName='task' title={task.title}>
+                        <ChatContainer roomId={channel.id} roomName='channel' title={channel.title}>
                             {messages &&
                                 messages
                                     .sort((a: Message, b: Message) => new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf())

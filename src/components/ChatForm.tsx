@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createId } from '@paralleldrive/cuid2'
 import { useSocket } from '@/providers/SocketProvider'
+import { useDashboard } from '@/providers/DashboardProvider'
 
 interface Props {
     messagesRef: any
@@ -13,6 +14,7 @@ interface Props {
 const ChatForm = ({ messagesRef, roomId, roomName }: Props) => {
     const [newMessage, setNewMessage] = useState('')
     const ws = useSocket()
+    const { userInfo } = useDashboard()
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -20,7 +22,8 @@ const ChatForm = ({ messagesRef, roomId, roomName }: Props) => {
         const messageObj = {
             id: createId(),
             content: newMessage,
-            senderId: '6563aec4-e124-4a05-b493-29d1fa25c764',
+            senderId: userInfo?.id,
+            channelId: roomName === 'channel' ? roomId : null,
             projectId: roomName === 'project' ? roomId : null,
             taskId: roomName === 'task' ? roomId : null,
         }

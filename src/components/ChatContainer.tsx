@@ -1,8 +1,11 @@
 'use client'
 
 import { useRef } from 'react'
-import ChatForm from './ChatForm'
+
 import { useSocket } from '@/providers/SocketProvider'
+import { useDashboard } from '@/providers/DashboardProvider'
+
+import ChatForm from './ChatForm'
 
 interface Props {
     roomId: string
@@ -14,13 +17,12 @@ interface Props {
 const ChatContainer = ({ roomId, roomName, title, children }: Props) => {
     const messagesRef = useRef<HTMLDivElement>(null)
     const ws = useSocket()
-
-    const username = 'kaos'
+    const { userInfo } = useDashboard()
 
     if (ws?.socket) {
-        ws.socket.emit(`join_${roomName}`, { username, title })
+        ws.socket.emit(`join_${roomName}`, { userId: userInfo?.id, title })
 
-        ws.socket.on('message', ({ id, content, senderId }) => {
+        ws.socket.on('message', ({ id, content, senderId, projectId }) => {
             console.log('client message: ', content)
         })
     }

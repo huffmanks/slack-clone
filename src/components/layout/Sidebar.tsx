@@ -1,13 +1,15 @@
 'use client'
 
 import { useDashboard } from '@/providers/DashboardProvider'
-import { sidebarLinks } from '@/constants/sidebarLinks'
+import useIsMounted from '@/hooks/useIsMounted'
 
 import SiderbarLinks from './SiderbarLinks'
 import SidebarCollapsible from './SidebarCollapsible'
 
 const Sidebar = () => {
-    const { isOpen, projects } = useDashboard()
+    const { isOpen, projects, channels } = useDashboard()
+
+    if (!useIsMounted()) return null
 
     return (
         <aside
@@ -17,11 +19,10 @@ const Sidebar = () => {
             aria-label='sidebar'>
             <div className='h-full overflow-y-auto px-3 pb-4 font-medium text-sm'>
                 <ul className='py-4 mb-4 px-1 border-b border-zinc-300 dark:border-zinc-700 transition-colors'>
-                    {sidebarLinks.map((link) => (
-                        <SiderbarLinks key={link.title} {...link} />
-                    ))}
+                    <SiderbarLinks />
                 </ul>
 
+                {channels && <SidebarCollapsible id='channelCollapsible' title='Channels' basePath='/dashboard/channels/' items={channels} />}
                 {projects && <SidebarCollapsible id='projectCollapsible' title='Projects' basePath='/dashboard/projects/' items={projects} />}
             </div>
         </aside>

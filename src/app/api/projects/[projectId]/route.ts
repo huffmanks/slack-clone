@@ -10,7 +10,7 @@ export async function GET(request: Request, { params }: Params) {
         return NextResponse.json({ message: 'No project found.' })
     }
 
-    const project = await prisma.project.findUnique({ where: { id }, include: { tasks: true, teams: true, messages: true, clients: true, createdBy: true } })
+    const project = await prisma.project.findUnique({ where: { id }, include: { tasks: true, teams: true, clients: true, createdBy: true } })
 
     if (!project) {
         return NextResponse.json({ message: 'No project found.' })
