@@ -3,6 +3,7 @@
 import { useEffect, useState, createContext, useContext } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { Channel, Project, User, Workspace } from '@prisma/client'
+import { UserWithWorkspaces } from '@/types'
 
 const initialContextState = {
     isOpen: {
@@ -15,7 +16,7 @@ interface DashboardState {
     workspace?: Workspace | null
     projects?: Project[] | null
     channels?: Channel[] | null
-    userInfo?: User | null
+    userInfo?: UserWithWorkspaces | null
     isOpen: IsOpen
     handleIsOpen?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
@@ -52,16 +53,15 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
             try {
                 const userResponse = await fetch(`http://localhost:3000/api/users/${user?.id}`)
                 const userData = await userResponse.json()
-                const userResponse = await fetch(`http://localhost:3000/api/users/${user?.id}`)
-                const userData = await userResponse.json()
 
                 if (!userData) return
 
-                const { workspaces, projects_assignedTo, channels_joined, ...rest } = userData
+                const { lastWorkspace, ...rest } = userData
+                const { projects: ws_projects, channels: ws_channels, ...workspaceInfo } = lastWorkspace
 
-                setWorkspace(workspaces?.[0])
-                setChannels(channels_joined)
-                setProjects(projects_assignedTo)
+                setWorkspace(workspaceInfo)
+                setChannels(ws_channels)
+                setProjects(ws_projects)
                 setUserInfo(rest)
             } catch (error) {
                 console.log(error)

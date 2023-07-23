@@ -64,6 +64,7 @@ model User {
 model Workspace {
   id             String    @id @default(cuid())
   title          String    @unique
+  slug           String    @unique // @computed (slugify title)
   logo           String?
   projects       Project[]
   channels       Channel[]

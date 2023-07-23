@@ -21,7 +21,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 const WorkspaceDropdown = () => {
-    const { workspace } = useDashboard()
+    const { workspace, userInfo } = useDashboard()
+
+    console.log(userInfo)
 
     return (
         <>
@@ -48,7 +50,7 @@ const WorkspaceDropdown = () => {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='w-60'>
-                    <DropdownMenuLabel>Workspace</DropdownMenuLabel>
+                    <DropdownMenuLabel className='truncate'>{workspace ? workspace.title : 'Workspace'}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
                         <DropdownMenuItem>
@@ -69,12 +71,15 @@ const WorkspaceDropdown = () => {
                         </DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
                             <DropdownMenuSubContent>
-                                <DropdownMenuItem disabled>
-                                    <span>Marketing (current)</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <span>Workspace 2</span>
-                                </DropdownMenuItem>
+                                {userInfo &&
+                                    userInfo.workspaces.map((ws) => (
+                                        <DropdownMenuItem key={ws.id} disabled={ws.id === workspace?.id}>
+                                            {/* TODO: Link to other workspace and refetch projects, channels etc.  */}
+                                            <span>
+                                                {ws.title} {ws.id === workspace?.id && `(current)`}
+                                            </span>
+                                        </DropdownMenuItem>
+                                    ))}
                             </DropdownMenuSubContent>
                         </DropdownMenuPortal>
                     </DropdownMenuSub>

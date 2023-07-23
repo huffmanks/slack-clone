@@ -1,4 +1,4 @@
-import { Message, User } from '@prisma/client'
+import { Message, User, Workspace } from '@prisma/client'
 
 export interface Params {
     params: {
@@ -8,4 +8,8 @@ export interface Params {
 
 export interface MessageWithSender extends Message {
     sender: User
+}
+
+export interface UserWithWorkspaces extends User {
+    workspaces: Workspace[]
 }

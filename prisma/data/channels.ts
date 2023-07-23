@@ -21,8 +21,36 @@ export const channelData = [
         messages: {
             create: [
                 {
-                    content: 'Hello Everyone! Welcome to the channel.',
+                    content: 'Hello Everyone! Welcome to the Marketing & Communications general channel.',
                     senderId: '3',
+                },
+            ],
+        },
+    },
+    {
+        id: '62',
+        title: 'General',
+        slug: 'general',
+        description: 'Put any useful information here.',
+        isArchived: false,
+        workspace: {
+            connect: {
+                id: '52',
+            },
+        },
+        users: {
+            connect: [{ id: '7' }, { id: '8' }, { id: '9' }, { id: '10' }, { id: '14' }],
+        },
+        createdBy: {
+            connect: {
+                id: '7',
+            },
+        },
+        messages: {
+            create: [
+                {
+                    content: 'Hello Everyone! Welcome to the Information Technology general channel.',
+                    senderId: '9',
                 },
             ],
         },

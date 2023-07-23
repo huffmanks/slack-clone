@@ -1,7 +1,8 @@
 export const workspaceData = [
     {
         id: '51',
-        title: 'Marketing',
+        title: 'Marketing & Communications',
+        slug: 'marketing-communications',
         logo: 'https://dummyimage.com/64x64/5656ff/5656ff.png',
         teams: {
             create: [
@@ -37,7 +38,8 @@ export const workspaceData = [
     },
     {
         id: '52',
-        title: 'ITS',
+        title: 'Information Technology',
+        slug: 'information-technology',
         logo: 'https://dummyimage.com/64x64/ad2c14/ad2c14.png',
         teams: {
             create: [
