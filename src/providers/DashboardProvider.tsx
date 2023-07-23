@@ -52,6 +52,8 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
             try {
                 const userResponse = await fetch(`http://localhost:3000/api/users/${user?.id}`)
                 const userData = await userResponse.json()
+                const userResponse = await fetch(`http://localhost:3000/api/users/${user?.id}`)
+                const userData = await userResponse.json()
 
                 if (!userData) return
 

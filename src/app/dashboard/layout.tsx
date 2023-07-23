@@ -1,11 +1,11 @@
 import DashboardProvider from '@/providers/DashboardProvider'
-import SearchBar from '@/components/layout/SearchBar'
+import NavBar from '@/components/layout/NavBar'
 import Sidebar from '@/components/layout/Sidebar'
 
 const layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <DashboardProvider>
-            <SearchBar />
+            <NavBar />
             <Sidebar />
 
             <main className='p-4 sm:ml-64'>

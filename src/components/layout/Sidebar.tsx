@@ -1,15 +1,13 @@
 'use client'
 
 import { useDashboard } from '@/providers/DashboardProvider'
-import useIsMounted from '@/hooks/useIsMounted'
 
-import SiderbarLinks from './SiderbarLinks'
-import SidebarCollapsible from './SidebarCollapsible'
+import SidebarCollapsible from '@/components/layout/SidebarCollapsible'
+import SiderbarLinks from '@/components/layout/SiderbarLinks'
+import WorkspaceDropdown from '@/components/layout/WorkspaceDropdown'
 
 const Sidebar = () => {
-    const { isOpen, projects, channels } = useDashboard()
-
-    if (!useIsMounted()) return null
+    const { isOpen } = useDashboard()
 
     return (
         <aside
@@ -18,12 +16,15 @@ const Sidebar = () => {
             }`}
             aria-label='sidebar'>
             <div className='h-full overflow-y-auto px-3 pb-4 font-medium text-sm'>
-                <ul className='py-4 mb-4 px-1 border-b border-zinc-300 dark:border-zinc-700 transition-colors'>
+                <div className='sm:hidden pt-4 mb-4 -ml-0.5 pr-3.5'>
+                    <WorkspaceDropdown />
+                </div>
+                <ul className='sm:pt-4 pb-4 mb-4 px-1 border-b border-zinc-300 dark:border-zinc-700 transition-colors'>
                     <SiderbarLinks />
                 </ul>
 
-                {channels && <SidebarCollapsible id='channelCollapsible' title='Channels' basePath='/dashboard/channels/' items={channels} />}
-                {projects && <SidebarCollapsible id='projectCollapsible' title='Projects' basePath='/dashboard/projects/' items={projects} />}
+                <SidebarCollapsible title='Channels' basePath='/dashboard/channels/' isChannel />
+                <SidebarCollapsible title='Projects' basePath='/dashboard/projects/' />
             </div>
         </aside>
     )
