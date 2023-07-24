@@ -1,11 +1,6 @@
-import { redirect } from 'next/navigation'
-import { currentUser, SignInButton, SignUpButton } from '@clerk/nextjs'
+import { SignInButton, SignUpButton } from '@clerk/nextjs'
 
 const Home = async () => {
-    const user = await currentUser()
-    if (user) {
-        redirect('/dashboard')
-    }
     return (
         <>
             <h1>Landing Page</h1>
