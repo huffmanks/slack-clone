@@ -4,3 +4,4 @@
 4. Fix '.../projects/[projectId]' page not displaying info
 5. Make ui components for project and task page
 6. Search input focus, hover states
+7. Fix middleware

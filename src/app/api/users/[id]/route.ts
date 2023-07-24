@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 
 import { prisma } from '@/lib/prisma'
 import type { Params } from '@/types'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 
 export async function GET(request: Request, { params }: Params) {
     const id = params.id
@@ -20,4 +21,28 @@ export async function GET(request: Request, { params }: Params) {
     }
 
     return NextResponse.json(user)
+}
+
+export async function PATCH(request: Request, { params }: Params) {
+    const id = params.id
+
+    if (!id) {
+        return NextResponse.json({ message: 'Record to update not found.' })
+    }
+
+    try {
+        const data = await request.json()
+
+        const user = await prisma.user.update({
+            where: { id },
+            data,
+        })
+        return NextResponse.json(user)
+    } catch (e) {
+        if (e instanceof PrismaClientKnownRequestError) {
+            if (e.code === 'P2025') {
+                return NextResponse.json({ message: e?.meta?.cause })
+            }
+        }
+    }
 }
