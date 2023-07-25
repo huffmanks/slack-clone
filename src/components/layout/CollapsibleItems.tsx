@@ -4,10 +4,11 @@ import { Channel, Project } from '@prisma/client'
 import { Hash } from 'lucide-react'
 
 import { toKebabCase } from '@/utils/toKebabCase'
+import { ProjectOrChannelFlat } from '@/types'
 
 interface Props {
     basePath: string
-    items: Project[] | Channel[]
+    items: Project[] | Channel[] | ProjectOrChannelFlat[]
 }
 
 const CollapsibleItems = ({ basePath, items }: Props) => {
