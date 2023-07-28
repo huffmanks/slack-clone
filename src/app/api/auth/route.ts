@@ -3,8 +3,7 @@ import { WebhookEvent } from '@clerk/nextjs/dist/types/server'
 
 import { prisma } from '@/lib/prisma'
 
-// need to export this as POST, PATCH
-export async function handler(request: Request) {
+export async function POST(request: Request) {
     const body = await request.json()
 
     const event = body.evt as WebhookEvent
@@ -12,23 +11,33 @@ export async function handler(request: Request) {
 
     const { email_addresses, username, first_name, last_name, image_url, created_at, updated_at } = JSON.parse(attributes.object)
 
-    let user
-
     if (event.type === 'user.created') {
-        user = await prisma.user.create({
+        const user = await prisma.user.create({
             data: {
                 externalId: id || '',
                 email: email_addresses[0].email_address,
                 username,
+                firstName: first_name,
+                lastName: last_name,
                 image: image_url,
                 createdAt: created_at,
                 updatedAt: updated_at,
             },
         })
+        return NextResponse.json(user)
     }
+}
+
+export async function PATCH(request: Request) {
+    const body = await request.json()
+
+    const event = body.evt as WebhookEvent
+    const { id, ...attributes } = event.data
+
+    const { email_addresses, username, first_name, last_name, image_url, updated_at } = JSON.parse(attributes.object)
 
     if (event.type === 'user.updated') {
-        user = await prisma.user.update({
+        const user = await prisma.user.update({
             where: { externalId: id },
             data: {
                 email: email_addresses[0].email_address,
@@ -39,13 +48,20 @@ export async function handler(request: Request) {
                 updatedAt: updated_at,
             },
         })
+        return NextResponse.json(user)
     }
+}
+
+export async function DELETE(request: Request) {
+    const body = await request.json()
+
+    const event = body.evt as WebhookEvent
+    const { id } = event.data
 
     if (event.type === 'user.deleted') {
-        user = await prisma.user.delete({
+        const user = await prisma.user.delete({
             where: { externalId: id },
         })
+        return NextResponse.json(user)
     }
-
-    return NextResponse.json(user)
 }

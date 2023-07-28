@@ -68,6 +68,39 @@ async function main() {
         })
     )
 
+    const updatedUsers = await Promise.all([
+        (async () => {
+            const user1 = await prisma.user.update({
+                where: {
+                    id: '14',
+                },
+                data: {
+                    lastWorkspace: {
+                        connect: {
+                            id: '51',
+                        },
+                    },
+                },
+            })
+            return user1
+        })(),
+        (async () => {
+            const user2 = await prisma.user.update({
+                where: {
+                    id: '15',
+                },
+                data: {
+                    lastWorkspace: {
+                        connect: {
+                            id: '51',
+                        },
+                    },
+                },
+            })
+            return user2
+        })(),
+    ])
+
     console.log(`Seeding finished.`)
 }
 

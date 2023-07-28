@@ -1,15 +1,11 @@
-import { SignInButton, SignUpButton } from '@clerk/nextjs'
+import MainLayout from '@/components/layout/MainLayout'
 
 const Home = async () => {
     return (
-        <>
-            <h1>Landing Page</h1>
+        <MainLayout>
+            <h1 className='font-bold text-2xl'>Landing Page</h1>
             <p>You can sign up here or learn more about us!</p>
-            <div className='flex items-center gap-4'>
-                <SignInButton afterSignInUrl='/dashboard' />
-                <SignUpButton afterSignUpUrl='/dashboard' />
-            </div>
-        </>
+        </MainLayout>
     )
 }
 

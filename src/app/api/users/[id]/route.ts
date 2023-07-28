@@ -33,10 +33,26 @@ export async function PATCH(request: Request, { params }: Params) {
     try {
         const data = await request.json()
 
+        if (data?.workspaceId) {
+            await prisma.workspace.update({
+                where: {
+                    id: data.workspaceId,
+                },
+                data: {
+                    users: {
+                        connect: {
+                            id,
+                        },
+                    },
+                },
+            })
+        }
+
         const user = await prisma.user.update({
             where: { id },
             data,
         })
+
         return NextResponse.json(user)
     } catch (e) {
         if (e instanceof PrismaClientKnownRequestError) {

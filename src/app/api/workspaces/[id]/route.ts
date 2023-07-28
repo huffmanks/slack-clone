@@ -10,11 +10,15 @@ export async function GET(request: Request, { params }: Params) {
         return NextResponse.json({ message: 'No workspace found.' })
     }
 
-    const workspace = await prisma.workspace.findUnique({ where: { id }, include: { projects: true, channels: true } })
+    try {
+        const workspace = await prisma.workspace.findUnique({ where: { id }, include: { projects: true, channels: true } })
 
-    if (!workspace) {
-        return NextResponse.json({ message: 'No workspace found.' })
+        if (!workspace) {
+            return NextResponse.json({ message: 'No workspace found.' })
+        }
+
+        return NextResponse.json(workspace)
+    } catch (error) {
+        console.log(error)
     }
-
-    return NextResponse.json(workspace)
 }
