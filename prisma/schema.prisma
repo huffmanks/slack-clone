@@ -35,16 +35,20 @@ enum Confidence {
 }
 
 model User {
-  id                  String      @id @default(cuid())
-  externalId          String?     @unique
-  email               String      @unique
-  username            String
-  firstName           String?
-  lastName            String?
-  image               String?
-  role                Role        @default(user)
-  jobTitle            String?
-  phoneNumber         String?
+  id          String   @id @default(cuid())
+  externalId  String?  @unique
+  email       String   @unique
+  username    String
+  firstName   String?
+  lastName    String?
+  image       String?
+  role        Role     @default(user)
+  jobTitle    String?
+  phoneNumber String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // relations
   workspaces          Workspace[] @relation("workspaces_joined")
   lastWorkspace       Workspace?  @relation("last_workspace", fields: [workspaceId], references: [id])
   workspaceId         String?
@@ -55,56 +59,61 @@ model User {
   projects_assignedTo Project[]   @relation("project_clients")
   tasks_created       Task[]      @relation("task_createdBy")
   tasks_assignedTo    Task[]      @relation("task_assignedTo")
-  messages            Message[]
+  messages_sent       Message[]   @relation("message_sender")
+  messages_received   Message[]   @relation("message_users")
   comments            Comment[]
-  createdAt           DateTime    @default(now())
-  updatedAt           DateTime    @updatedAt
 
   @@unique([workspaceId, username])
 }
 
 model Workspace {
-  id             String    @id @default(cuid())
-  title          String    @unique
-  slug           String    @unique // @computed (slugify title)
-  logo           String?
-  projects       Project[]
-  channels       Channel[]
+  id        String   @id @default(cuid())
+  title     String   @unique
+  slug      String   @unique // @computed (slugify title)
+  logo      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
   teams          Team[]
-  users          User[]    @relation("workspaces_joined")
+  channels       Channel[]
+  projects       Project[]
   user_workspace User[]    @relation("last_workspace")
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  users          User[]    @relation("workspaces_joined")
 }
 
 model Team {
-  id                String    @id @default(cuid())
-  title             String    @unique
+  id                String   @id @default(cuid())
+  title             String   @unique
   completedProjects Int? // @computed total count of projects completed
-  workspace         Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  workspaceId       String
-  projects          Project[]
-  users             User[]
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // relations
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  workspaceId String
+  projects    Project[]
+  users       User[]
 
   @@unique([workspaceId, title])
 }
 
 model Channel {
-  id          String    @id @default(cuid())
+  id          String   @id @default(cuid())
   title       String
   slug        String // @computed (slugify title)
   description String?
-  isArchived  Boolean   @default(false)
+  isArchived  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  //relations
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   workspaceId String
   users       User[]    @relation("channel_users")
-  messages    Message[]
   createdBy   User      @relation("channel_createdBy", fields: [createdById], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdById String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  messages    Message[]
 
   @@unique([workspaceId, title])
 }
@@ -125,41 +134,52 @@ model Project {
   effort           Int? // @computed Effort of all of the tasks for this project, i.e. 3 tasks with effort of 1 week, 3 weeks, 5 weeks (EFFORT=9)
   neededBy         DateTime?
   willMeetDeadline Boolean? // @computed (Today + tasks not completed effort) lte<= neededBy i.e. June 1 + 2 weeks (effort) <= June 15
-  workspace        Workspace   @relation(fields: [workspaceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  workspaceId      String
-  teams            Team[]
-  tasks            Task[]
-  messages         Message[]
-  createdBy        User        @relation("project_createdBy", fields: [createdById], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdById      String
-  clients          User[]      @relation("project_clients")
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
+
+  // relations
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  workspaceId String
+  teams       Team[]
+  tasks       Task[]
+  createdBy   User      @relation("project_createdBy", fields: [createdById], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdById String
+  clients     User[]    @relation("project_clients")
+  messages    Message[]
 
   @@unique([workspaceId, title])
 }
 
 model Task {
-  id          String    @id @default(cuid())
+  id          String   @id @default(cuid())
   title       String
   description String?
-  stage       Stage     @default(incoming)
+  stage       Stage    @default(incoming)
   effort      Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // relations
   project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   projectId   String
-  messages    Message[]
   createdBy   User      @relation("task_createdBy", fields: [createdById], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdById String
   assignedTo  User[]    @relation("task_assignedTo")
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  messages    Message[]
 
   @@unique([projectId, title])
 }
 
 model Message {
-  id        String    @id @default(cuid())
+  id        String   @id @default(cuid())
   content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  sender    User      @relation("message_sender", fields: [senderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  senderId  String
+  users     User[]    @relation("message_users")
   channel   Channel?  @relation(fields: [channelId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   channelId String?
   project   Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -167,19 +187,17 @@ model Message {
   task      Task?     @relation(fields: [taskId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   taskId    String?
   comments  Comment[]
-  sender    User      @relation(fields: [senderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  senderId  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
 }
 
 model Comment {
   id        String   @id @default(cuid())
   content   String
-  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  messageId String
-  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  senderId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // relations
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  messageId String
+  sender    User    @relation(fields: [senderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  senderId  String
 }

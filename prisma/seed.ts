@@ -1,6 +1,6 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 
-import { userData, workspaceData, channelData, projectData, taskData } from './config'
+import { userData, workspaceData, channelData, projectData, taskData, messageData } from './config'
 
 const prisma = new PrismaClient()
 
@@ -9,6 +9,7 @@ const workspaces: Prisma.WorkspaceCreateInput[] = workspaceData
 const channels: Prisma.ChannelCreateInput[] = channelData
 const projects: Prisma.ProjectCreateInput[] = projectData
 const tasks: Prisma.TaskCreateInput[] = taskData
+const messages: Prisma.MessageCreateInput[] = messageData
 
 async function main() {
     console.log(`Start seeding ...`)
@@ -55,6 +56,15 @@ async function main() {
                 data: task,
             })
             return createdTask
+        })
+    )
+
+    const createdMessages = await Promise.all(
+        messages.map(async (message) => {
+            const createdMessage = await prisma.message.create({
+                data: message,
+            })
+            return createdMessage
         })
     )
 

@@ -10,52 +10,81 @@ const SocketHandler = async (req: Request, res: any) => {
             addTrailingSlash: false,
         })
 
+        // Server-Side Socket.js setup
         io.on('connection', (socket) => {
-            console.log('New client connected')
+            console.log('User connected: ', socket.id)
 
-            // Handle joining project
-            socket.on('join_project', async ({ userId, projectTitle }) => {
-                // console.log('userId', userId)
-                // const user = await prisma.user.findUnique({ where: { id: userId } })
-                // if (user) {
-                //     socket.join(projectTitle)
-                //     socket.to(projectTitle).emit('joined', { username: user.username, content: `${user.username} has joined the chat` })
-                // }
+            socket.on('join_room', (data) => {
+                const { username, receiverId, receiverType } = data
+                socket.join(receiverId)
+                console.log(`${username} joined ${receiverType} ${receiverId}`)
             })
 
-            socket.on('leave_project', ({ userId, projectTitle }) => {
-                socket.leave(projectTitle)
+            socket.on('leave_room', (data) => {
+                const { username, receiverId, receiverType } = data
+                socket.leave(receiverId)
+                console.log(`${username} left ${receiverType} ${receiverId}`)
             })
 
-            // Handle joining task
-            // socket.on('join_task', async ({ userId, taskName }) => {
-            //     const user = await prisma.user.findUnique({ where: { id: userId } })
-            //     if (user) {
-            //         socket.join(taskName)
-            //         socket.to(taskName).emit('joined', { username: user.username, content: `${user.username} has joined the chat` })
-            //     }
-            // })
+            socket.on('chat_message', async (data) => {
+                const { id, content, senderId, receiverId, receiverType } = data
 
-            // socket.on('leave_task', ({ userId, taskName }) => {
-            //     socket.leave(taskName)
-            // })
+                try {
+                    await prisma.message.create({
+                        data: {
+                            id,
+                            content,
+                            sender: {
+                                connect: {
+                                    id: senderId,
+                                },
+                            },
+                            ...(receiverType === 'channel' && {
+                                channel: {
+                                    connect: {
+                                        id: receiverId,
+                                    },
+                                },
+                            }),
+                            ...(receiverType === 'project' && {
+                                project: {
+                                    connect: {
+                                        id: receiverId,
+                                    },
+                                },
+                            }),
+                            ...(receiverType === 'task' && {
+                                task: {
+                                    connect: {
+                                        id: receiverId,
+                                    },
+                                },
+                            }),
+                            ...(receiverType === 'users' && {
+                                users: {
+                                    connect: {
+                                        id: receiverId,
+                                    },
+                                },
+                            }),
+                        },
+                    })
 
-            // Handle chat messages
-            socket.on('chat_message', async ({ id, content, senderId, projectId }) => {
-                // find out which room message is coming from and update that project or task
-                //
-                // const user = await prisma.user.findUnique({ where: { id: senderId } })
-                // const project = await prisma.project.findUnique({ where: { id: projectId } })
-                // if (project) {
-                //     console.log('server message: ', content)
-                //     socket.to(project.name).emit('message', { id, content, senderId, projectId })
-                // }
+                    socket.to(receiverId).emit('message', { id, content, senderId, receiverId })
+                } catch (error) {
+                    console.error('Error saving private message to database:', error)
+                }
             })
 
-            // socket.on('input-change', (msg) => {
-            //     socket.broadcast.emit('update-input', msg)
-            // })
+            socket.on('disconnect', () => {
+                console.log('User disconnected:', socket.id)
+            })
         })
+
+        //     // socket.on('input-change', (msg) => {
+        //     //     socket.broadcast.emit('update-input', msg)
+        //     // })
+        // })
 
         res.socket.server.io = io
     }

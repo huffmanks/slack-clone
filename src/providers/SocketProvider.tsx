@@ -3,11 +3,10 @@
 import { io, Socket } from 'socket.io-client'
 import { useEffect, useState, createContext, useContext } from 'react'
 import { useUser } from '@clerk/nextjs'
-import type { UserResource } from '@clerk/types'
 
 interface SocketState {
     socket?: Socket
-    user?: UserResource
+    userId?: string
 }
 
 const SocketContext = createContext<SocketState | null>(null)
@@ -23,7 +22,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             socket.connect()
 
             socket.on('connect', () => {
-                setSocketState({ socket, user })
+                setSocketState({ socket, userId: user.id })
             })
         }
 

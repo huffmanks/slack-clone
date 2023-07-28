@@ -22,14 +22,6 @@ export const projectData = [
         workspace: {
             connect: { id: '51' },
         },
-        messages: {
-            create: [
-                {
-                    content: 'Opening this project to get started! Let me know if you have any questions.',
-                    senderId: '1',
-                },
-            ],
-        },
         teams: {
             connect: [{ id: '21' }, { id: '22' }],
         },

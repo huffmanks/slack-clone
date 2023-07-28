@@ -10,7 +10,7 @@ export async function GET(request: Request, { params }: Params) {
         return NextResponse.json({ message: 'No channel found.' })
     }
 
-    const channel = await prisma.channel.findUnique({ where: { id }, include: { createdBy: true } })
+    const channel = await prisma.channel.findUnique({ where: { id }, include: { createdBy: true, messages: { include: { sender: true } } } })
 
     if (!channel) {
         return NextResponse.json({ message: 'No channel found.' })

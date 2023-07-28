@@ -24,6 +24,7 @@ export interface UserWithWorkspaces extends User {
 
 export interface UserInfoFlat {
     id: string
+    username?: string
     workspaces: Workspace[] | []
 }
 

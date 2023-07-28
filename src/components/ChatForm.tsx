@@ -7,11 +7,11 @@ import { useDashboard } from '@/providers/DashboardProvider'
 
 interface Props {
     messagesRef: any
-    roomId: string
-    roomName: string
+    receiverId: string
+    receiverType: string
 }
 
-const ChatForm = ({ messagesRef, roomId, roomName }: Props) => {
+const ChatForm = ({ messagesRef, receiverId, receiverType }: Props) => {
     const [newMessage, setNewMessage] = useState('')
     const ws = useSocket()
     const { userInfo } = useDashboard()
@@ -23,23 +23,9 @@ const ChatForm = ({ messagesRef, roomId, roomName }: Props) => {
             id: createId(),
             content: newMessage,
             senderId: userInfo?.id,
-            channelId: roomName === 'channel' ? roomId : null,
-            projectId: roomName === 'project' ? roomId : null,
-            taskId: roomName === 'task' ? roomId : null,
+            receiverId,
+            receiverType,
         }
-
-        const createMessage = async () => {
-            const res = await fetch('http://localhost:3000/api/messages', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(messageObj),
-            })
-            return res.json()
-        }
-
-        createMessage()
 
         if (ws?.socket) {
             ws.socket.emit('chat_message', messageObj)

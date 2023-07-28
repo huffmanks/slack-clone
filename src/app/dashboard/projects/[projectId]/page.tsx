@@ -12,9 +12,6 @@ const page = async ({ params }: Props) => {
     const projectResponse = await fetch(`http://localhost:3000/api/projects/${params.projectId}?workspaceId=51`)
     const project = await projectResponse.json()
 
-    const messagesResponse = await fetch(`http://localhost:3000/api/messages?id=${params.projectId}`)
-    const messages = await messagesResponse.json()
-
     return (
         <>
             {project && (
@@ -51,9 +48,9 @@ const page = async ({ params }: Props) => {
 
                     <div>
                         <h2 className='text-lg mb-2 font-bold'>Messages</h2>
-                        <ChatContainer roomId={project.id} roomName='project' title={project.title}>
-                            {messages &&
-                                messages
+                        <ChatContainer receiverId={project.id} receiverType='project'>
+                            {project?.messages &&
+                                project.messages
                                     .sort((a: Message, b: Message) => new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf())
                                     .map((message: MessageWithSender) => (
                                         <div key={message.id}>

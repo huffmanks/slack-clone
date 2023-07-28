@@ -18,14 +18,6 @@ export const channelData = [
                 id: '1',
             },
         },
-        messages: {
-            create: [
-                {
-                    content: 'Hello Everyone! Welcome to the Marketing & Communications general channel.',
-                    senderId: '3',
-                },
-            ],
-        },
     },
     {
         id: '62',
@@ -45,14 +37,6 @@ export const channelData = [
             connect: {
                 id: '7',
             },
-        },
-        messages: {
-            create: [
-                {
-                    content: 'Hello Everyone! Welcome to the Information Technology general channel.',
-                    senderId: '9',
-                },
-            ],
         },
     },
 ]
