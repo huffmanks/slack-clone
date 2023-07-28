@@ -10,7 +10,7 @@ const SocketHandler = async (req: Request, res: any) => {
             addTrailingSlash: false,
         })
 
-        // Server-Side Socket.js setup
+        // Server socket connection
         io.on('connection', (socket) => {
             console.log('User connected: ', socket.id)
 
@@ -28,9 +28,8 @@ const SocketHandler = async (req: Request, res: any) => {
 
             socket.on('chat_message', async (data) => {
                 const { id, content, senderId, receiverId, receiverType } = data
-
                 try {
-                    await prisma.message.create({
+                    const createdMessage = await prisma.message.create({
                         data: {
                             id,
                             content,
@@ -68,23 +67,22 @@ const SocketHandler = async (req: Request, res: any) => {
                                 },
                             }),
                         },
+                        include: {
+                            sender: true,
+                        },
                     })
 
-                    socket.to(receiverId).emit('message', { id, content, senderId, receiverId })
+                    io.to(receiverId).emit('message', createdMessage)
                 } catch (error) {
-                    console.error('Error saving private message to database:', error)
+                    console.error('Error saving message to database:', error)
                 }
             })
 
-            socket.on('disconnect', () => {
-                console.log('User disconnected:', socket.id)
+            socket.on('input_change', (data) => {
+                const { receiverId, username } = data
+                socket.to(receiverId).emit('user_typing', { username })
             })
         })
-
-        //     // socket.on('input-change', (msg) => {
-        //     //     socket.broadcast.emit('update-input', msg)
-        //     // })
-        // })
 
         res.socket.server.io = io
     }

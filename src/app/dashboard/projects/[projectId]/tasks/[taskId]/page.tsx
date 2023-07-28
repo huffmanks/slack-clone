@@ -1,7 +1,4 @@
-import { Message } from '@prisma/client'
-
 import ChatContainer from '@/components/ChatContainer'
-import { MessageWithSender } from '@/types'
 
 interface Props {
     params: {
@@ -27,17 +24,7 @@ const page = async ({ params }: Props) => {
 
                     <div>
                         <h2 className='text-lg mb-2 font-bold'>Messages</h2>
-                        <ChatContainer receiverId={task.id} receiverType='task'>
-                            {task?.messages &&
-                                task.messages
-                                    .sort((a: Message, b: Message) => new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf())
-                                    .map((message: MessageWithSender) => (
-                                        <div key={message.id}>
-                                            <div className='mb-1 text-sm'>{message.sender.username}</div>
-                                            <div className='w-fit rounded-full bg-zinc-700 px-3 py-1'>{message.content}</div>
-                                        </div>
-                                    ))}
-                        </ChatContainer>
+                        <ChatContainer messages={task?.messages} receiverId={task.id} receiverType='task' />
                     </div>
                 </>
             )}

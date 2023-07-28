@@ -154,4 +154,14 @@ export const userData = [
         image: 'https://dummyimage.com/64x64/5656ff/5656ff.png',
         role: Role.admin,
     },
+    {
+        id: '15',
+        externalId: 'user_2TBVwzKfUf8cUpOq1Ah96K6Xw7s',
+        email: 'huffmanks2@gmail.com',
+        username: 'kaos',
+        firstName: 'Kaos',
+        lastName: 'Huffman',
+        image: 'https://dummyimage.com/64x64/5656ff/5656ff.png',
+        role: Role.admin,
+    },
 ]

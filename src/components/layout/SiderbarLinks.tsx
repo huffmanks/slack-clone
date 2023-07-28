@@ -1,8 +1,15 @@
 import Link from 'next/link'
 
-import { Inbox, AtSign, MessagesSquare, Users2 } from 'lucide-react'
+import { LayoutDashboard, Inbox, AtSign, MessagesSquare, Users2 } from 'lucide-react'
 
 export const sidebarLinks = [
+    {
+        title: 'Dashboard',
+        link: '/dashboard',
+        icon: (
+            <LayoutDashboard className='h-5 w-5 text-zinc-500 dark:text-zinc-600 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 group-focus-visible:text-zinc-900 dark:group-focus-visible:text-zinc-100' />
+        ),
+    },
     {
         title: 'Tasks',
         link: '#',
